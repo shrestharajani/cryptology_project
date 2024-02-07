@@ -6,6 +6,51 @@
     <title>Cryptology Project:Encryption Algorithms</title>
   </head>
   <body>
-    <h1>Ceaser Cipher</h1>
+    <h1>Chat Application</h1>
+
+    <!-- Sender Application -->
+    <h2>Sender</h2>
+    <form action="/encrypt" method="post">
+      <label for="plain_text">Enter plain text message:</label><br />
+      <input type="text" id="plain_text" name="plain_text" /><br />
+      <label for="key">Enter key:</label><br />
+      <input type="number" id="key" name="key" /><br />
+      <label for="algorithm">Select technique:</label><br />
+      <select id="algorithm" name="algorithm">
+        <option value="caesar">Caesar Cipher</option>
+        <option value="polyalphabetic">Polyalphabetic</option></select
+      ><br />
+      <input type="submit" name="encrypt" value="Encrypt" /><br />
+      {% if not encrypted_text %}
+      <label for="cipher_text">Cipher text:</label><br />
+      <textarea rows="1" cols="20" readonly></textarea><br />
+      <button type="submit">Send</button>
+      {% endif %}
+    </form>
+    {% if encrypted_text %}
+    <label for="cipher_text">Cipher text:</label><br />
+    <form action="/send_message" method="post">
+      <textarea rows="1" cols="20" readonly>{{ encrypted_text }}</textarea
+      ><br />
+      <button type="submit">Send</button>
+    </form>
+    {% endif %}
+
+    <!-- Receiver Application -->
+    <h2>Receiver</h2>
+    <form action="/receive_message" method="post">
+      <label for="cipher_text">Cipher text:</label><br />
+      <input type="text" id="cipher_text" name="cipher_text" /><br />
+      <label for="key">Enter key:</label><br />
+      <input type="text" id="key" name="key" /><br />
+      <label for="algorithm">Select technique:</label><br />
+      <select id="algorithm" name="algorithm">
+        <option value="caesar">Caesar Cipher</option>
+        <option value="polyalphabetic">Polyalphabetic</option></select
+      ><br />
+      <input type="button" id="decrypt" name="decrypt" value="Decrypt" /><br />
+      <!-- <label for="plain_text">Plain text:</label><br />
+      <input type="text" id="plain_text" name="plain_text" /><br /> -->
+    </form>
   </body>
 </html>

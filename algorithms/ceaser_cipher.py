@@ -1,17 +1,16 @@
 
-def encryption_algorithm():
-    plain_text = input("Enter the plain text: ")
+def encryption_algorithm(plain_text,shift):
     encrypted_text = ""
     for character in plain_text:
         if character.isalpha():
             if character.islower():
                 # ord(a) = 97 (ASCII value)
                 # For the case of lowercase characters
-                encrypted_character = (((ord(character)-ord('a'))+3)%26)+ord('a')
+                encrypted_character = (((ord(character)-ord('a'))+int(shift))%26)+ord('a')
             else:
                 # ord(A) = 65 (ASCII value)
                 # For the case of uppercase characters
-                encrypted_character = (((ord(character)-ord('A'))+3)%26)+ord('A')
+                encrypted_character = (((ord(character)-ord('A'))+int(shift))%26)+ord('A')
             encrypted_text += chr(encrypted_character)
         else:
             encrypted_text += character
