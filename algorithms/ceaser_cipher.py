@@ -16,18 +16,18 @@ def encryption_algorithm(plain_text,shift):
             encrypted_text += character
     return encrypted_text
 
-def decryption_algorithm(encrypted_text):
+def decryption_algorithm(encrypted_text,shift):
     decrypted_text = ""
     for character in encrypted_text:
         if character.isalpha():
             if character.islower():
                 # ord(a) = 97 (ASCII value)
                 # For the case of lowercase characters
-                decrypted_character = (((ord(character)-ord('a'))-3)%26)+ord('a')
+                decrypted_character = (((ord(character)-ord('a'))-int(shift))%26)+ord('a')
             else:
                 # ord(A) = 65 (ASCII value)
                 # For the case of uppercase characters
-                decrypted_character = (((ord(character)-ord('A'))-3)%26)+ord('A')
+                decrypted_character = (((ord(character)-ord('A'))-int(shift))%26)+ord('A')
             decrypted_text += chr(decrypted_character)
         else:
             decrypted_text += character

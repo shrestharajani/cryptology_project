@@ -30,7 +30,14 @@
     {% if encrypted_text %}
     <label for="cipher_text">Cipher text:</label><br />
     <form action="/send_message" method="post">
-      <textarea rows="1" cols="20" readonly>{{ encrypted_text }}</textarea
+      <textarea
+        rows="1"
+        cols="20"
+        id="encrypted_text"
+        name="encrypted_text"
+        readonly
+      >
+        {{ encrypted_text }}</textarea
       ><br />
       <button type="submit">Send</button>
     </form>
@@ -39,8 +46,21 @@
     <!-- Receiver Application -->
     <h2>Receiver</h2>
     <form action="/receive_message" method="post">
-      <label for="cipher_text">Cipher text:</label><br />
-      <input type="text" id="cipher_text" name="cipher_text" /><br />
+      {% if send_encrypted_text %}
+      <label for="cipher_text">Plain text:</label><br />
+      <textarea
+        rows="1"
+        cols="20"
+        id="received_encrypted_text"
+        name="received_encrypted_text"
+        readonly
+      >
+{{ send_encrypted_text }}</textarea
+      ><br />
+      {% endif %} {% if not send_encrypted_text %}
+      <label for="cipher_text">Plain text:</label><br />
+      <textarea rows="1" cols="20" readonly></textarea><br />
+      {% endif %}
       <label for="key">Enter key:</label><br />
       <input type="text" id="key" name="key" /><br />
       <label for="algorithm">Select technique:</label><br />
@@ -48,9 +68,22 @@
         <option value="caesar">Caesar Cipher</option>
         <option value="polyalphabetic">Polyalphabetic</option></select
       ><br />
-      <input type="button" id="decrypt" name="decrypt" value="Decrypt" /><br />
-      <!-- <label for="plain_text">Plain text:</label><br />
-      <input type="text" id="plain_text" name="plain_text" /><br /> -->
+      <input type="submit" id="decrypt" name="decrypt" value="Decrypt" /><br />
+      {{ decrypted_text }}{% if decrypted_text %}
+      <label for="cipher_text">Plain text:</label><br />
+      <textarea
+        rows="1"
+        cols="20"
+        id="decrypted_text"
+        name="decrypted_text"
+        readonly
+      >
+{{ decrypted_text }}</textarea
+      ><br />
+      {% endif %} {% if not decrypted_text %}
+      <label for="cipher_text">Plain text:</label><br />
+      <textarea rows="1" cols="20"></textarea><br />
+      {% endif %}
     </form>
   </body>
 </html>

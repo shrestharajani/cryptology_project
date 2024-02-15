@@ -7,13 +7,9 @@ def encryption_function(plaintext,encryption_key,encryption_technique):
     if encryption_technique == 'caesar':
         return ceaser_cipher.encryption_algorithm(plaintext,encryption_key)
 
-# def ceaser_cipher_algorithm():
-#     encrypted_text = ceaser_cipher.encryption_algorithm()
-#     decrypted_text = ceaser_cipher.decryption_algorithm(encrypted_text)
-#     return jsonify({
-#         'encrypted_text': encrypted_text,
-#         'decrypted_text': decrypted_text
-#     })
+def decryption_function(cipher_text,decryption_key,decryption_technique):
+    if decryption_technique == 'caesar':
+        return ceaser_cipher.decryption_algorithm(cipher_text,decryption_key)
 
 @app.route('/')
 def render_design_template():
@@ -29,8 +25,14 @@ def encrypt():
 
 @app.route('/send_message', methods=['POST'])
 def sender():
-    return
+    send_encrypted_text = request.form['encrypted_text']
+    return render_template('design_template.html',send_encrypted_text = send_encrypted_text)
 
 @app.route('/receive_message', methods=['POST'])
 def receiver():
-    return
+    cipher_text = request.form['received_encrypted_text']
+    decryption_key = request.form['key']
+    decryption_technique = request.form['algorithm']
+    plain_text = decryption_function(cipher_text,decryption_key,decryption_technique)
+    return render_template('design_template.html',decrypted_text = plain_text)
+    
