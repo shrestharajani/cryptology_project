@@ -1,6 +1,8 @@
 from flask import Flask,render_template, jsonify, request
 from algorithms import ceaser_cipher
 from algorithms import hill_cipher
+from algorithms import monoalphabetic
+from algorithms import playflair
 
 app = Flask(__name__)
 
@@ -9,12 +11,20 @@ def encryption_function(plaintext,encryption_key,encryption_technique):
         return ceaser_cipher.encryption_algorithm(plaintext,encryption_key)
     if encryption_technique == 'hill_cipher':
         return hill_cipher.encryption_algorithm(plaintext,encryption_key)
+    if encryption_technique == 'monoalphabetic':
+        return monoalphabetic.encryption_algorithm(plaintext)
+    if encryption_technique == 'play_flair':
+        return playflair.encryption_algorithm(plaintext,encryption_key)
 
 def decryption_function(cipher_text,decryption_key,decryption_technique):
     if decryption_technique == 'caesar':
         return ceaser_cipher.decryption_algorithm(cipher_text,decryption_key)
     if decryption_technique == 'hill_cipher':
         return hill_cipher.decryption_algorithm(cipher_text,decryption_key)
+    if decryption_technique == 'monoalphabetic':
+        return monoalphabetic.decryption_algorithm(cipher_text)
+    if decryption_technique == 'play_flair':
+        return playflair.decryption_algorithm(cipher_text,decryption_key)
 
 @app.route('/')
 def render_design_template():

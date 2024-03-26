@@ -1,4 +1,3 @@
-
 def key_to_matrix_generation(plain_key):
     key = plain_key.upper().replace(" ", "")
     key_length = len(key)
@@ -40,36 +39,40 @@ def encryption_algorithm(plain_text,plain_key):
 
 def decryption_algorithm(encrypted_text,cipher_key):
     matrik_key = key_to_matrix_generation(cipher_key)
-    length_matrix = len(matrik_key)
+    matrix_size = len(matrik_key)
     ciphertext = encrypted_text.upper().replace(" ", "")
 
     ciphertext_matrix = []
-    for i in range(0, len(ciphertext), length_matrix):
-        cipher_slice = ciphertext[i:i+length_matrix]
+    
+    for i in range(0, len(ciphertext), matrix_size):
+    #     for j in range(matrix_size):
+    #         ciphertext_matrix.append(ord(ciphertext[i + j]) - ord('A'))
+    # print("Cipher",ciphertext_matrix)
+        cipher_slice = ciphertext[i:i+matrix_size]
         cipher_slice_indices = [ord(char) - ord('A') for char in  cipher_slice]
-        ciphertext_matrix.append( cipher_slice_indices)
+        ciphertext_matrix.append(cipher_slice_indices)
 
-    decrypted_message = ""
+    decrypted_text = ""
     det = determinant(matrik_key)
     det_inv = pow(det, -1, 26)
     adjoint_matrix = adjoint(matrik_key)
     
     key_inverse = []
-    for i in range(length_matrix):
+    for i in range(matrix_size):
         row = []
-        for j in range(length_matrix):
+        for j in range(matrix_size):
             row.append((det_inv * adjoint_matrix[i][j]) % 26)
         key_inverse.append(row)
     
     for group in ciphertext_matrix:
         decrypted_group = []
-        for j in range(length_matrix):
+        for j in range(matrix_size):
             sum_value = 0
-            for i in range(length_matrix):
+            for i in range(matrix_size):
                 sum_value += group[i] * key_inverse[j][i]
             decrypted_group.append(sum_value % 26)
-        decrypted_message += ''.join([chr(int(char) + ord('A')) for char in decrypted_group])
-    return decrypted_message
+        decrypted_text += ''.join([chr(int(char) + ord('A')) for char in decrypted_group])
+    return decrypted_text
 
 # Function to calculate determinant of a matrix
 def determinant(matrix):

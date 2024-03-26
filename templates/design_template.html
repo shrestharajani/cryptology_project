@@ -14,11 +14,11 @@
       <label for="plain_text">Enter plain text message:</label><br />
       <input type="text" id="plain_text" name="plain_text" required /><br />
       <label for="key">Enter key:</label><br />
-      <input type="text" id="key" name="key" required /><br />
+      <input type="text" id="key" name="key" /><br />
       <label for="algorithm">Select technique:</label><br />
       <select id="algorithm" name="algorithm">
         <option value="caesar">Caesar Cipher</option>
-        <option value="polyalphabetic">Polyalphabetic</option>
+        <!-- <option value="polyalphabetic">Polyalphabetic</option> -->
         <option value="monoalphabetic">Monoalphabetic</option>
         <option value="hill_cipher">Hill Cipher</option>
         <option value="play_flair">Play Fair</option></select
@@ -26,7 +26,7 @@
       <input type="submit" name="encrypt" value="Encrypt" /><br />
       {% if not encrypted_text %}
       <label for="cipher_text">Cipher text:</label><br />
-      <textarea rows="1" cols="20" readonly></textarea><br />
+      <textarea rows="2" cols="30" readonly></textarea><br />
       <button type="submit">Send</button>
       {% endif %}
     </form>
@@ -34,8 +34,8 @@
     <label for="cipher_text">Cipher text:</label><br />
     <form action="/send_message" method="post">
       <textarea
-        rows="1"
-        cols="20"
+        rows="2"
+        cols="30"
         id="encrypted_text"
         name="encrypted_text"
         readonly
@@ -52,8 +52,8 @@
       {% if send_encrypted_text %}
       <label for="cipher_text">Plain text:</label><br />
       <textarea
-        rows="1"
-        cols="20"
+        rows="2"
+        cols="30"
         id="received_encrypted_text"
         name="received_encrypted_text"
         readonly
@@ -62,24 +62,24 @@
       ><br />
       {% endif %} {% if not send_encrypted_text %}
       <label for="cipher_text">Plain text:</label><br />
-      <textarea rows="1" cols="20" readonly></textarea><br />
+      <textarea rows="2" cols="30" readonly></textarea><br />
       {% endif %}
       <label for="key">Enter key:</label><br />
-      <input type="text" id="key" name="key" required /><br />
+      <input type="text" id="key" name="key" /><br />
       <label for="algorithm">Select technique:</label><br />
       <select id="algorithm" name="algorithm">
         <option value="caesar">Caesar Cipher</option>
-        <option value="polyalphabetic">Polyalphabetic</option>
+        <!-- <option value="polyalphabetic">Polyalphabetic</option> -->
         <option value="monoalphabetic">Monoalphabetic</option>
         <option value="hill_cipher">Hill Cipher</option>
         <option value="play_flair">Play Fair</option></select
       ><br />
       <input type="submit" id="decrypt" name="decrypt" value="Decrypt" /><br />
-      {{ decrypted_text }}{% if decrypted_text %}
+      {% if decrypted_text %}
       <label for="cipher_text">Plain text:</label><br />
       <textarea
-        rows="1"
-        cols="20"
+        rows="2"
+        cols="30"
         id="decrypted_text"
         name="decrypted_text"
         readonly
