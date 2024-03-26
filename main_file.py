@@ -1,15 +1,20 @@
 from flask import Flask,render_template, jsonify, request
 from algorithms import ceaser_cipher
+from algorithms import hill_cipher
 
 app = Flask(__name__)
 
 def encryption_function(plaintext,encryption_key,encryption_technique):
     if encryption_technique == 'caesar':
         return ceaser_cipher.encryption_algorithm(plaintext,encryption_key)
+    if encryption_technique == 'hill_cipher':
+        return hill_cipher.encryption_algorithm(plaintext,encryption_key)
 
 def decryption_function(cipher_text,decryption_key,decryption_technique):
     if decryption_technique == 'caesar':
         return ceaser_cipher.decryption_algorithm(cipher_text,decryption_key)
+    if decryption_technique == 'hill_cipher':
+        return hill_cipher.decryption_algorithm(cipher_text,decryption_key)
 
 @app.route('/')
 def render_design_template():

@@ -12,13 +12,16 @@
     <h2>Sender</h2>
     <form action="/encrypt" method="post">
       <label for="plain_text">Enter plain text message:</label><br />
-      <input type="text" id="plain_text" name="plain_text" /><br />
+      <input type="text" id="plain_text" name="plain_text" required /><br />
       <label for="key">Enter key:</label><br />
-      <input type="number" id="key" name="key" /><br />
+      <input type="text" id="key" name="key" required /><br />
       <label for="algorithm">Select technique:</label><br />
       <select id="algorithm" name="algorithm">
         <option value="caesar">Caesar Cipher</option>
-        <option value="polyalphabetic">Polyalphabetic</option></select
+        <option value="polyalphabetic">Polyalphabetic</option>
+        <option value="monoalphabetic">Monoalphabetic</option>
+        <option value="hill_cipher">Hill Cipher</option>
+        <option value="play_flair">Play Fair</option></select
       ><br />
       <input type="submit" name="encrypt" value="Encrypt" /><br />
       {% if not encrypted_text %}
@@ -62,11 +65,14 @@
       <textarea rows="1" cols="20" readonly></textarea><br />
       {% endif %}
       <label for="key">Enter key:</label><br />
-      <input type="text" id="key" name="key" /><br />
+      <input type="text" id="key" name="key" required /><br />
       <label for="algorithm">Select technique:</label><br />
       <select id="algorithm" name="algorithm">
         <option value="caesar">Caesar Cipher</option>
-        <option value="polyalphabetic">Polyalphabetic</option></select
+        <option value="polyalphabetic">Polyalphabetic</option>
+        <option value="monoalphabetic">Monoalphabetic</option>
+        <option value="hill_cipher">Hill Cipher</option>
+        <option value="play_flair">Play Fair</option></select
       ><br />
       <input type="submit" id="decrypt" name="decrypt" value="Decrypt" /><br />
       {{ decrypted_text }}{% if decrypted_text %}
