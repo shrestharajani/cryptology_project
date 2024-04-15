@@ -63,7 +63,7 @@ def decryption_algorithm(encrypted_text,cipher_key):
         for j in range(matrix_size):
             row.append((det_inv * adjoint_matrix[i][j]) % 26)
         key_inverse.append(row)
-    
+
     for group in ciphertext_matrix:
         decrypted_group = []
         for j in range(matrix_size):
