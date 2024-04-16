@@ -4,92 +4,213 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cryptology Project:Encryption Algorithms</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f2f2f2;
+      }
+
+      .form-container {
+        width: 35%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      form {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        /* height: 60%; */
+        /* display: flex; */
+        flex-direction: column;
+        /* justify-content: space-between; */
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      select,
+      input[type="text"],
+      textarea {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type="submit"],
+      button {
+        width: 100%;
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      input[type="submit"]:hover,
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .result-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .result-container textarea {
+        width: 100%;
+        height: 100px;
+        resize: none;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .form-container + .form-container {
+        margin-left: 20px; /* Adjust space between sender and receiver */
+      }
+
+      /* @media screen and (max-width: 768px) {
+        .form-container {
+          width: 90%;
+        }
+      } */
+    </style>
   </head>
   <body>
-    <h1>Chat Application</h1>
-
     <!-- Sender Application -->
-    <h2>Sender</h2>
-    <form action="/encrypt" method="post">
-      <label for="plain_text">Enter plain text message:</label><br />
-      <input type="text" id="plain_text" name="plain_text" required /><br />
-      <label for="key">Enter key:</label><br />
-      <input type="text" id="key" name="key" /><br />
-      <label for="algorithm">Select technique:</label><br />
-      <select id="algorithm" name="algorithm">
-        <option value="caesar">Caesar Cipher</option>
-        <!-- <option value="polyalphabetic">Polyalphabetic</option> -->
-        <option value="monoalphabetic">Monoalphabetic</option>
-        <option value="hill_cipher">Hill Cipher</option>
-        <option value="play_flair">Play Fair</option></select
-      ><br />
-      <input type="submit" name="encrypt" value="Encrypt" /><br />
-      {% if not encrypted_text %}
+    <div class="form-container">
+      <h1>Sender</h1>
+      <form action="/encrypt" method="post">
+        <label for="plain_text">Enter plain text message:</label><br />
+        <input type="text" id="plain_text" name="plain_text" required /><br />
+        <label for="key">Enter key:</label><br />
+        <input type="text" id="key" name="key" /><br />
+        <label for="algorithm">Select technique:</label><br />
+        <select id="algorithm" name="algorithm">
+          <option value="caesar">Caesar Cipher</option>
+          <option value="polyalphabetic">Polyalphabetic</option>
+          <option value="monoalphabetic">Monoalphabetic</option>
+          <option value="hill_cipher">Hill Cipher</option>
+          <option value="play_flair">Play Fair</option>
+          <option value="railfence">Rail Fence</option>
+          <option value="otp">OTP</option>
+          <option value="columnar">Columnar</option>
+          <option value="aes">AES Algorithm</option>
+          <option value="des">DES Algorithm</option>
+          <option value="deffie">Deffie Hellman</option>
+          <option value="ecc">Elleptic Curve</option>
+          <option value="sha">SHA-256</option>
+          <option value="rc4">RC4</option>
+          <option value="rsa">RSA</option></select
+        ><br />
+        <input type="submit" name="encrypt" value="Encrypt" /><br />
+        {% if not encrypted_text %}
+        <label for="cipher_text">Cipher text:</label><br />
+        <textarea rows="2" cols="30" readonly></textarea><br />
+        <button type="submit">Send</button>
+        {% endif %}
+      </form>
+      {% if encrypted_text %}
       <label for="cipher_text">Cipher text:</label><br />
-      <textarea rows="2" cols="30" readonly></textarea><br />
-      <button type="submit">Send</button>
+      <form action="/send_message" method="post">
+        <textarea
+          rows="2"
+          cols="30"
+          id="encrypted_text"
+          name="encrypted_text"
+          readonly
+        >
+              {{ encrypted_text }}</textarea
+        ><br />
+        <button type="submit">Send</button>
+      </form>
       {% endif %}
-    </form>
-    {% if encrypted_text %}
-    <label for="cipher_text">Cipher text:</label><br />
-    <form action="/send_message" method="post">
-      <textarea
-        rows="2"
-        cols="30"
-        id="encrypted_text"
-        name="encrypted_text"
-        readonly
-      >
-        {{ encrypted_text }}</textarea
-      ><br />
-      <button type="submit">Send</button>
-    </form>
-    {% endif %}
+    </div>
 
-    <!-- Receiver Application -->
-    <h2>Receiver</h2>
-    <form action="/receive_message" method="post">
-      {% if send_encrypted_text %}
-      <label for="cipher_text">Plain text:</label><br />
-      <textarea
-        rows="2"
-        cols="30"
-        id="received_encrypted_text"
-        name="received_encrypted_text"
-        readonly
-      >
-{{ send_encrypted_text }}</textarea
-      ><br />
-      {% endif %} {% if not send_encrypted_text %}
-      <label for="cipher_text">Plain text:</label><br />
-      <textarea rows="2" cols="30" readonly></textarea><br />
-      {% endif %}
-      <label for="key">Enter key:</label><br />
-      <input type="text" id="key" name="key" /><br />
-      <label for="algorithm">Select technique:</label><br />
-      <select id="algorithm" name="algorithm">
-        <option value="caesar">Caesar Cipher</option>
-        <!-- <option value="polyalphabetic">Polyalphabetic</option> -->
-        <option value="monoalphabetic">Monoalphabetic</option>
-        <option value="hill_cipher">Hill Cipher</option>
-        <option value="play_flair">Play Fair</option></select
-      ><br />
-      <input type="submit" id="decrypt" name="decrypt" value="Decrypt" /><br />
-      {% if decrypted_text %}
-      <label for="cipher_text">Plain text:</label><br />
-      <textarea
-        rows="2"
-        cols="30"
-        id="decrypted_text"
-        name="decrypted_text"
-        readonly
-      >
-{{ decrypted_text }}</textarea
-      ><br />
-      {% endif %} {% if not decrypted_text %}
-      <label for="cipher_text">Plain text:</label><br />
-      <textarea rows="1" cols="20"></textarea><br />
-      {% endif %}
-    </form>
+    <div class="form-container">
+      <!-- Receiver Application -->
+      <h1>Receiver</h1>
+      <form action="/receive_message" method="post">
+        {% if send_encrypted_text %}
+        <label for="cipher_text">Cipher text:</label><br />
+        <textarea
+          rows="2"
+          cols="30"
+          id="received_encrypted_text"
+          name="received_encrypted_text"
+          readonly
+        >
+      {{ send_encrypted_text }}</textarea
+        ><br />
+        {% endif %} {% if not send_encrypted_text %}
+        <label for="cipher_text">Cipher text:</label><br />
+        <textarea rows="2" cols="30" readonly></textarea><br />
+        {% endif %}
+        <label for="key">Enter key:</label><br />
+        <input type="text" id="key" name="key" /><br />
+        <label for="algorithm">Select technique:</label><br />
+        <select id="algorithm" name="algorithm">
+          <option value="caesar">Caesar Cipher</option>
+          <option value="polyalphabetic">Polyalphabetic</option>
+          <option value="monoalphabetic">Monoalphabetic</option>
+          <option value="hill_cipher">Hill Cipher</option>
+          <option value="play_flair">Play Fair</option>
+          <option value="railfence">Rail Fence</option>
+          <option value="otp">OTP</option>
+          <option value="columnar">Columnar</option>
+          <option value="aes">AES Algorithm</option>
+          <option value="des">DES Algorithm</option>
+          <option value="deffie">Deffie Hellman</option>
+          <option value="ecc">Elleptic Curve</option>
+          <option value="sha">SHA-256</option>
+          <option value="rc4">RC4</option>
+          <option value="rsa">RSA</option></select
+        ><br />
+        <input
+          type="submit"
+          id="decrypt"
+          name="decrypt"
+          value="Decrypt"
+        /><br />
+        {% if decrypted_text %}
+        <label for="cipher_text">Plain text:</label><br />
+        <textarea
+          rows="2"
+          cols="30"
+          id="decrypted_text"
+          name="decrypted_text"
+          readonly
+        >
+      {{ decrypted_text }}</textarea
+        ><br />
+        {% endif %} {% if not decrypted_text %}
+        <label for="cipher_text">Plain text:</label><br />
+        <textarea rows="1" cols="20"></textarea><br />
+        {% endif %}
+      </form>
+    </div>
   </body>
 </html>
